@@ -10,10 +10,11 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import kndroidx.application.BaseApplication
 
-inline fun Context.start(block: Intent.() -> Unit) {
+inline fun Context.startIntent(block: Intent.() -> Unit) : Intent {
     val intent = Intent()
     intent.block()
     startActivity(intent)
+    return intent
 }
 
 inline fun <reified T : Activity> Context.start() {

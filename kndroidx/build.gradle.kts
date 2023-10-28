@@ -35,10 +35,10 @@ publishing { // 发布配置
 android {
     compileSdk = 33
     namespace = "http://schemas.android.com/apk/res/android"
-    version = 1
     defaultConfig {
         namespace = "io.github.kndroidx"
         minSdk = 21
+        targetSdk = 33
     }
 
     buildTypes {
