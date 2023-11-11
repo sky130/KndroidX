@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import kndroidx.application.BaseApplication
+import kndroidx.application.ApplicationX
 
 inline fun Context.startIntent(block: Intent.() -> Unit) : Intent {
     val intent = Intent()
@@ -30,7 +30,7 @@ inline fun <reified T : Activity> Context.start(block: Intent.() -> Unit) {
 
 inline fun <reified T : Service> start(
     flags: Int = Application.BIND_AUTO_CREATE,
-    context: Context = BaseApplication.baseApplication,
+    context: Context = ApplicationX.application,
     crossinline onServiceConnected: (ComponentName, IBinder) -> Unit = { _, _ -> },
     crossinline onServiceDisconnected: (ComponentName) -> Unit = { _ -> },
     intent: Intent.() -> Unit = {},

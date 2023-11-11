@@ -1,23 +1,32 @@
-package kndroidx.activity
+package kndroidx.fragment
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.ParameterizedType
 
 
-abstract class BaseViewActivity<VB : ViewBinding> : AppCompatActivity() {
+abstract class BaseViewFragment<VB : ViewBinding> : Fragment() {
     open val binding: VB by lazy(mode = LazyThreadSafetyMode.NONE) {
         getViewBinding(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         beforeSetContentView()
-        setContentView(binding.root)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         init()
         initView()
         initData()

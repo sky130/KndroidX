@@ -1,6 +1,8 @@
 package kndroidx.extension
 
+import android.content.pm.ApplicationInfo
 import android.util.Log
+import kndroidx.application.ApplicationX.Companion.context
 
 var TAG = "TAG"
 
@@ -9,13 +11,18 @@ val Any.log: LogObject
 
 fun Any.log(tag: String = TAG) = LogObject.getObj(tag, this.toString())
 
+fun isDebug(): Boolean {
+    return context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+}
+
 class LogObject private constructor(private val tag: String, private val msg: String) {
     companion object {
         internal fun getObj(tag: String, msg: String) = LogObject(tag, msg)
     }
 
     fun d() {
-        Log.d(tag, msg)
+        if (isDebug())
+            Log.d(tag, msg)
     }
 
     fun e() {
@@ -27,10 +34,20 @@ class LogObject private constructor(private val tag: String, private val msg: St
     }
 
     fun i() {
-        Log.i(tag, msg)
+        if (isDebug())
+            Log.i(tag, msg)
     }
 
     fun v() {
-        Log.v(tag, msg)
+        if (isDebug())
+            Log.v(tag, msg)
+    }
+
+    fun f() {
+        Log.wtf(tag, msg)
+    }
+
+    fun f(tr: Throwable) {
+        Log.wtf(tag, msg, tr)
     }
 }

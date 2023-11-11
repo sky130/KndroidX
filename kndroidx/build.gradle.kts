@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    "maven-publish"
+    id("maven-publish")
 }
 
 val GROUP_ID = "com.github.KndroidX"
@@ -33,12 +33,12 @@ publishing { // 发布配置
 
 
 android {
-    compileSdk = 33
-    namespace = "http://schemas.android.com/apk/res/android"
+    compileSdk = 34
+    namespace = "io.github.kndroid"
     defaultConfig {
         namespace = "io.github.kndroidx"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
     }
 
     buildTypes {
