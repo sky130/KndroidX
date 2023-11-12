@@ -29,6 +29,9 @@ publishing { // 发布配置
             }
         }
     }
+    repositories {
+        mavenLocal()
+    }
 }
 
 
@@ -38,7 +41,6 @@ android {
     defaultConfig {
         namespace = "io.github.kndroidx"
         minSdk = 21
-        targetSdk = 34
     }
 
     buildTypes {
