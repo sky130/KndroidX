@@ -2,7 +2,7 @@ package kndroidx.extension
 
 import android.content.pm.ApplicationInfo
 import android.util.Log
-import kndroidx.application.ApplicationX.Companion.context
+import kndroidx.KndroidX.context
 
 var TAG = "TAG"
 
@@ -12,7 +12,7 @@ val Any.log: LogObject
 fun Any.log(tag: String = TAG) = LogObject.getObj(tag, this.toString())
 
 fun isDebug(): Boolean {
-    return context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+    return context!!.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
 }
 
 class LogObject private constructor(private val tag: String, private val msg: String) {

@@ -1,13 +1,15 @@
 package kndroidx.extension
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.graphics.Color
 import android.os.Build
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
-import kndroidx.application.ApplicationX.Companion.context
+import kndroidx.KndroidX.context
 
 val clipboard = lazy {
     context.getSystemService<ClipboardManager>()
@@ -25,7 +27,9 @@ fun Any.toast(int: Int = Toast.LENGTH_SHORT) {
     }
 }
 
+@SuppressLint("SupportAnnotationUsage")
 @Suppress("DEPRECATION")
+@StringRes
 fun Int.toast(int: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, this, int).apply {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {

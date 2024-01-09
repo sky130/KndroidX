@@ -17,4 +17,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "KndroidX"
 include(":app")
-include(":kndroidx")
+include(":core")
+include(":core-databinding")

@@ -3,6 +3,7 @@ package kndroidx.preference
 import android.content.SharedPreferences
 
 @Suppress("UNCHECKED_CAST")
+@Deprecated("Unable to use Delegate")
 class SharedPreferencesX(val sp: SharedPreferences) {
 
     inline fun edit(block: EditorX.() -> Unit) {
@@ -70,6 +71,5 @@ class SharedPreferencesX(val sp: SharedPreferences) {
             else -> throw IllegalArgumentException("This type of class is not supported.")
         }
     }
-
 
 }

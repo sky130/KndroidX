@@ -4,9 +4,9 @@ plugins {
     id("maven-publish")
 }
 
-val GROUP_ID = "com.github.KndroidX"
-val ARTIFACT_ID = "KndroidX"
-val VERSION = latestGitTag().ifEmpty { "0.1.0-alpha" }
+val GROUP_ID = "com.github.kndroidx"
+val ARTIFACT_ID = "core"
+val VERSION = latestGitTag().ifEmpty { "0.1.1-alpha" }
 
 fun latestGitTag(): String {
     val process = ProcessBuilder("git", "describe", "--tags", "--abbrev=0").start()
@@ -65,11 +65,6 @@ android {
 }
 
 dependencies {
-
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

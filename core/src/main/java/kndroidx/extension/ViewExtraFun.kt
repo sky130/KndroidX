@@ -1,7 +1,7 @@
 package kndroidx.extension
 
 import android.widget.TextView
-import kndroidx.application.ApplicationX.Companion.context
+import kndroidx.KndroidX.context
 
 operator fun TextView.compareTo(any: Any): Int {
     text = any.toString()
