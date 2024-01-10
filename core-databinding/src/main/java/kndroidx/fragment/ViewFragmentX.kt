@@ -15,23 +15,21 @@ class ViewFragmentX<VB : ViewBinding, VM : ViewModel> : BaseFragmentX() {
 
     override fun onCreateView(inflater: LayoutInflater): View {
         _binding = createViewBinding(inflater)
-        _viewModel = createViewModel()
+        _viewModel = createViewModel(0)
         if (binding is ViewDataBinding) {
-            (binding as ViewDataBinding).lifecycleOwner = this@ViewFragmentX
+            (binding as ViewDataBinding).lifecycleOwner = this
             try {
                 val vbClass =
-                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VB>>()
-                val vmClass =
-                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VM>>()
-                val set = vbClass[0].getMethod("setViewModel", vmClass[0])
+                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<Any>>()
+                val set = vbClass[0].getMethod("setViewModel", vbClass[1])
                 set.invoke(binding, viewModel)
             } catch (_: Exception) {
             }
             try {
                 val vbClass =
-                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VB>>()
-                val set = vbClass[0].getMethod("setFragment", this@ViewFragmentX::class.java)
-                set.invoke(binding, this@ViewFragmentX)
+                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<Any>>()
+                val set = vbClass[0].getMethod("setActivity", this::class.java)
+                set.invoke(binding, this)
             } catch (_: Exception) {
             }
         }

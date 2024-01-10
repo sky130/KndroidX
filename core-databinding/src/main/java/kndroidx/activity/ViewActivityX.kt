@@ -12,27 +12,26 @@ abstract class ViewActivityX<VB : ViewBinding, VM : ViewModel> : BaseActivityX()
     private var _viewModel: VM? = null
     val viewModel get() = _viewModel!!
 
-    override fun onCreateView(): View = binding.apply {
-        _viewModel = createViewModel()
+    override fun onCreateView(): View {
+        _viewModel = createViewModel(1)
         if (binding is ViewDataBinding) {
-            (binding as ViewDataBinding).lifecycleOwner = this@ViewActivityX
+            (binding as ViewDataBinding).lifecycleOwner = this
             try {
                 val vbClass =
-                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VB>>()
-                val vmClass =
-                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VM>>()
-                val set = vbClass[0].getMethod("setViewModel", vmClass[0])
+                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<Any>>()
+                val set = vbClass[0].getMethod("setViewModel", vbClass[1])
                 set.invoke(binding, viewModel)
             } catch (_: Exception) {
             }
             try {
                 val vbClass =
-                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VB>>()
-                val set = vbClass[0].getMethod("setActivity", this@ViewActivityX::class.java)
-                set.invoke(binding, this@ViewActivityX)
+                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<Any>>()
+                val set = vbClass[0].getMethod("setActivity", this::class.java)
+                set.invoke(binding, this)
             } catch (_: Exception) {
             }
         }
-    }.root
+        return binding.root
+    }
 
 }
