@@ -15,7 +15,7 @@ abstract class ViewFragmentX<VB : ViewBinding, VM : ViewModel> : BaseFragmentX()
 
     override fun onCreateView(inflater: LayoutInflater): View {
         _binding = createViewBinding(inflater)
-        _viewModel = createViewModel(0)
+        _viewModel = createViewModel(1)
         if (binding is ViewDataBinding) {
             (binding as ViewDataBinding).lifecycleOwner = this
             try {
