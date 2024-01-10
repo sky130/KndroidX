@@ -1,11 +1,13 @@
 package kndroidx.extension
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.graphics.Color
 import android.os.Build
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
 import kndroidx.KndroidX.context
 
@@ -25,7 +27,13 @@ fun Any.toast(int: Int = Toast.LENGTH_SHORT) {
     }
 }
 
+@get:SuppressLint("SupportAnnotationUsage")
+@get:StringRes
+val Int.string get() = context.getString(this)
+
+@SuppressLint("SupportAnnotationUsage")
 @Suppress("DEPRECATION")
+@StringRes
 fun Int.toast(int: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, this, int).apply {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
@@ -36,6 +44,7 @@ fun Int.toast(int: Int = Toast.LENGTH_SHORT) {
         show()
     }
 }
+
 
 fun Any.copy(): Boolean {
     return try {
