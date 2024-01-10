@@ -7,7 +7,7 @@ import android.content.SharedPreferences
 import kndroidx.KndroidX.context
 import kotlin.reflect.KProperty
 
-class PreferencesX(private val sp: SharedPreferences) {
+open class PreferencesX(private val sp: SharedPreferences) {
 
     constructor(name: String, mode: Int = Context.MODE_PRIVATE) : this(
         context.getSharedPreferences(
