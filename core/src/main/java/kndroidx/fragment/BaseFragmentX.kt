@@ -17,7 +17,7 @@ abstract class BaseFragmentX : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         beforeSetContent()
         return onCreateView(inflater)
