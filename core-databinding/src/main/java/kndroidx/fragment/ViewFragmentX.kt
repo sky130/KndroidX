@@ -5,6 +5,7 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import java.lang.reflect.ParameterizedType
 
 class ViewFragmentX<VB : ViewBinding, VM : ViewModel> : BaseFragmentX() {
     private var _binding: VB? = null
@@ -14,10 +15,26 @@ class ViewFragmentX<VB : ViewBinding, VM : ViewModel> : BaseFragmentX() {
 
     override fun onCreateView(inflater: LayoutInflater): View {
         _binding = createViewBinding(inflater)
-        if (_binding is ViewDataBinding) {
-            (_binding as ViewDataBinding).lifecycleOwner = viewLifecycleOwner
+        _viewModel = createViewModel(position = 1)
+        if (binding is ViewDataBinding) {
+            (binding as ViewDataBinding).lifecycleOwner = this@ViewFragmentX
+            try {
+                val vbClass =
+                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VB>>()
+                val vmClass =
+                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VM>>()
+                val set = vbClass[0].getMethod("setViewModel", vmClass[1])
+                set.invoke(binding, viewModel)
+            } catch (_: Exception) {
+            }
+            try {
+                val vbClass =
+                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VB>>()
+                val set = vbClass[0].getMethod("setFragment", this@ViewFragmentX::class.java)
+                set.invoke(binding, this@ViewFragmentX)
+            } catch (_: Exception) {
+            }
         }
-        _viewModel = createViewModel()
         return binding.root
     }
 
