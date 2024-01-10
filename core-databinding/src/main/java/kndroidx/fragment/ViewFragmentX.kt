@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.ParameterizedType
 
-class ViewFragmentX<VB : ViewBinding, VM : ViewModel> : BaseFragmentX() {
+abstract class ViewFragmentX<VB : ViewBinding, VM : ViewModel> : BaseFragmentX() {
     private var _binding: VB? = null
     val binding get() = _binding!!
     private var _viewModel: VM? = null
