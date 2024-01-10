@@ -28,7 +28,7 @@ abstract class ViewFragmentX<VB : ViewBinding, VM : ViewModel> : BaseFragmentX()
             try {
                 val vbClass =
                     (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<Any>>()
-                val set = vbClass[0].getMethod("setActivity", this::class.java)
+                val set = vbClass[0].getMethod("setFragment", this::class.java)
                 set.invoke(binding, this)
             } catch (_: Exception) {
             }
