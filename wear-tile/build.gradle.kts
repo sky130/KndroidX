@@ -2,30 +2,16 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("maven-publish")
-    id("kotlin-kapt")
 }
-
-val GROUP_ID = "com.github.kndroidx"
-val ARTIFACT_ID = "core-databinding"
-val VERSION = latestGitTag().ifEmpty { "0.1.1-alpha" }
-
-fun latestGitTag(): String {
-    val process = ProcessBuilder("git", "describe", "--tags", "--abbrev=0").start()
-    return process.inputStream.bufferedReader().use { bufferedReader ->
-        bufferedReader.readText().trim()
-    }
-}
-
 
 publishing { // 发布配置
     publications { // 发布的内容
         register<MavenPublication>("release") { // 注册一个名字为 release 的发布内容
-            groupId = GROUP_ID
-            artifactId = ARTIFACT_ID
-            version = VERSION
+            groupId = "com.github.kndroidx"
+            artifactId = "wear-tile"
+            version =  latestGitTag().ifEmpty { "0.1.1-alpha" }
 
-            afterEvaluate { // 在所有的配置都完成之后执行
-                // 从当前 module 的 release 包中发布
+            afterEvaluate {
                 from(components["release"])
             }
         }
@@ -35,12 +21,20 @@ publishing { // 发布配置
     }
 }
 
+fun latestGitTag(): String {
+    val process = ProcessBuilder("git", "describe", "--tags", "--abbrev=0").start()
+    return process.inputStream.bufferedReader().use { bufferedReader ->
+        bufferedReader.readText().trim()
+    }
+}
+
+
 android {
-    namespace = "com.github.kndroidx"
+    namespace = "kndroidx.wear.tile"
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 23
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -62,15 +56,19 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        viewBinding = true
-        dataBinding = true
-    }
 }
 
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation(project(":core"))
     implementation("androidx.appcompat:appcompat:1.6.1")
+
+    implementation("androidx.wear:wear:1.4.0-alpha01")
+    implementation("androidx.wear.tiles:tiles:1.3.0-beta01")
+    implementation("androidx.wear.protolayout:protolayout:1.1.0-beta01")
+    implementation("androidx.wear.protolayout:protolayout-material:1.1.0-beta01")
+    implementation("androidx.wear.protolayout:protolayout-expression:1.1.0-beta01")
+    implementation("androidx.concurrent:concurrent-futures:1.1.0")
+    implementation("com.google.guava:guava:31.0.1-android")
+
+    implementation(project(":core"))
 }
