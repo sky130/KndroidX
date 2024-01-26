@@ -2,9 +2,10 @@ package kndroidx.wear.tile.layout
 
 import androidx.wear.protolayout.DimensionBuilders.ContainerDimension
 import androidx.wear.protolayout.LayoutElementBuilders
+import kndroidx.wear.tile.addLayoutElement
 import androidx.wear.protolayout.ModifiersBuilders.Modifiers.Builder as ModifiersBuilder
 
-fun Column(
+fun Any.Column(
     width: ContainerDimension,
     height: ContainerDimension,
     modifier: ModifiersBuilder? = null,
@@ -14,4 +15,6 @@ fun Column(
     setHeight(height)
     modifier?.let { setModifiers(it.build()) }
     block?.invoke(this)
-}.build()
+}.build().apply {
+    addLayoutElement(this@Column, this)
+}

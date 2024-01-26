@@ -2,6 +2,7 @@ package kndroidx.wear.tile.widget
 
 import androidx.wear.protolayout.DimensionBuilders.DpProp
 import androidx.wear.protolayout.LayoutElementBuilders.Image
+import kndroidx.wear.tile.addLayoutElement
 import androidx.wear.protolayout.ModifiersBuilders.Modifiers.Builder as ModifiersBuilder
 
 fun Any.Image(
@@ -16,4 +17,6 @@ fun Any.Image(
     setHeight(height)
     modifier?.let { setModifiers(it.build()) }
     block?.invoke(this)
-}.build()
+}.build().apply {
+    addLayoutElement(this@Image, this)
+}
