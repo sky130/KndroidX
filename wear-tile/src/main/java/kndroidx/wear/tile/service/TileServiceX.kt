@@ -21,7 +21,7 @@ abstract class TileServiceX : TileService() {
 
     abstract fun onClick(id: String)
 
-    abstract fun onAttachedToWindow()
+    abstract fun onEnter()
 
     open val imageMap = ArrayMap<String, Image>()
 
@@ -41,7 +41,7 @@ abstract class TileServiceX : TileService() {
         )
 
     override fun onTileEnterEvent(requestParams: EventBuilders.TileEnterEvent) {
-        onAttachedToWindow()
+        onEnter()
     }
 
     override fun onTileResourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ListenableFuture<ResourceBuilders.Resources> =
