@@ -7,6 +7,7 @@ import androidx.wear.protolayout.LayoutElementBuilders.Box
 import androidx.wear.protolayout.LayoutElementBuilders.Column
 import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
 import androidx.wear.protolayout.LayoutElementBuilders.Row
+import androidx.wear.tiles.TileService
 import kndroidx.wear.tile.layout.Grid
 
 val Number.dp get() = DimensionBuilders.dp(this.toFloat())
@@ -41,6 +42,8 @@ fun addLayoutElement(parent: Any, child: LayoutElement) {
         is Grid -> {
             parent.contents(child)
         }
+
+        is TileService -> Unit
 
         else -> {
             throw IllegalStateException("Tile Fun is only can be call in Layout Block.")

@@ -63,10 +63,10 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
 
     implementation("androidx.wear:wear:1.4.0-alpha01")
-    implementation("androidx.wear.tiles:tiles:1.3.0-beta01")
-    implementation("androidx.wear.protolayout:protolayout:1.1.0-beta01")
-    implementation("androidx.wear.protolayout:protolayout-material:1.1.0-beta01")
-    implementation("androidx.wear.protolayout:protolayout-expression:1.1.0-beta01")
+    implementation("androidx.wear.tiles:tiles:1.3.0-rc01")
+    implementation("androidx.wear.protolayout:protolayout:1.1.0-rc01")
+    implementation("androidx.wear.protolayout:protolayout-material:1.1.0-rc01")
+    implementation("androidx.wear.protolayout:protolayout-expression:1.1.0-rc01")
     implementation("androidx.concurrent:concurrent-futures:1.1.0")
     implementation("com.google.guava:guava:31.0.1-android")
 
