@@ -3,6 +3,11 @@ package kndroidx.wear.tile
 import androidx.annotation.OptIn
 import androidx.wear.protolayout.DimensionBuilders.DpProp
 import androidx.wear.protolayout.ModifiersBuilders
+import androidx.wear.protolayout.ModifiersBuilders.AnimatedVisibility
+import androidx.wear.protolayout.ModifiersBuilders.Background
+import androidx.wear.protolayout.ModifiersBuilders.Border
+import androidx.wear.protolayout.ModifiersBuilders.Clickable
+import androidx.wear.protolayout.ModifiersBuilders.Semantics
 import androidx.wear.protolayout.TypeBuilders
 import androidx.wear.protolayout.expression.ProtoLayoutExperimental
 import androidx.wear.protolayout.ModifiersBuilders.Modifiers.Builder as ModifiersBuilder
@@ -11,10 +16,21 @@ import androidx.wear.protolayout.ModifiersBuilders.Modifiers.Builder as Modifier
 val Modifier get() = ModifiersBuilder()
 
 @OptIn(ProtoLayoutExperimental::class)
-fun ModifiersBuilder.setVisible(visible: Boolean) =
+fun ModifiersBuilder.visible(visible: Boolean) =
     setVisible(TypeBuilders.BoolProp.Builder().setValue(visible).build())
 
-fun ModifiersBuilder.setPadding(
+fun ModifiersBuilder.background(background: Background) = setBackground(background)
+
+fun ModifiersBuilder.clickable(clickable: Clickable) = setClickable(clickable)
+
+fun ModifiersBuilder.border(border: Border) = setBorder(border)
+
+@OptIn(ProtoLayoutExperimental::class)
+fun ModifiersBuilder.animation(animatedVisibility: AnimatedVisibility) = setContentUpdateAnimation(animatedVisibility)
+
+fun ModifiersBuilder.semantics(semantics: Semantics) = setSemantics(semantics)
+
+fun ModifiersBuilder.padding(
     top: DpProp?,
     bottom: DpProp?,
     start: DpProp?,
