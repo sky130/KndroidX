@@ -8,6 +8,6 @@ import androidx.wear.protolayout.LayoutElementBuilders.Box.Builder as BoxBuilder
 
 fun TileService.layout(block: BoxBuilder.() -> Unit) = Box(expand(), expand(), block = block)
 
-fun Any.layout(block: () -> LayoutElement) {
+fun Any.element(block: () -> LayoutElement) {
     addLayoutElement(this, block())
 }
