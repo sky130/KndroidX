@@ -45,6 +45,8 @@ fun addLayoutElement(parent: Any, child: LayoutElement) {
 
         is TileService -> Unit
 
+        is Tile -> Unit
+
         else -> {
             throw IllegalStateException("Tile Fun is only can be call in Layout Block.")
         }

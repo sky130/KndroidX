@@ -11,3 +11,7 @@ fun TileService.layout(block: BoxBuilder.() -> Unit) = Box(expand(), expand(), b
 fun Any.element(block: () -> LayoutElement) {
     addLayoutElement(this, block())
 }
+
+object Tile {
+    override fun toString() = "KndroidX.Tile"
+}
