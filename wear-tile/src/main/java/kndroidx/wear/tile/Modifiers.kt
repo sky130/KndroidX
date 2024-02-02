@@ -31,12 +31,12 @@ fun ModifiersBuilder.animation(animatedVisibility: AnimatedVisibility) = setCont
 fun ModifiersBuilder.semantics(semantics: Semantics) = setSemantics(semantics)
 
 fun ModifiersBuilder.padding(
-    top: DpProp?,
-    bottom: DpProp?,
-    start: DpProp?,
-    end: DpProp?,
-    vertical: DpProp?,
-    horizontal: DpProp?,
+    top: DpProp? = null,
+    bottom: DpProp? = null,
+    start: DpProp? = null,
+    end: DpProp? = null,
+    vertical: DpProp? = null,
+    horizontal: DpProp? = null,
 ) = setPadding(Padding(top, bottom, start, end, vertical, horizontal))
 
 fun Padding(
