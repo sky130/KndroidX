@@ -1,20 +1,31 @@
+@file:SuppressLint("StaticFieldLeak")
+
 package kndroidx
 
 import android.annotation.SuppressLint
 import android.content.Context
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 
-fun kndroidx(block: KndroidX.() -> Unit) {
-    KndroidX.block()
+inline fun <T> kndroidx(block: KndroidX.() -> T): T {
+    return KndroidX.block()
 }
 
-@SuppressLint("StaticFieldLeak")
+fun kndroidxConfig(block: KndroidConfig.() -> Unit) {
+    KndroidConfig.block()
+}
+
+object KndroidConfig {
+    var context: Context? = null
+        get() = field.apply {
+            if (this == null) {
+                throw IllegalStateException("Didn't Init KndroidX")
+            }
+        }
+}
+
 object KndroidX {
-    private var _context: Context? = null
-    var context: Context
-        set(value) {
-            _context = value
-        }
-        get() {
-            return _context ?: throw NullPointerException("KndroidX didn't init.")
-        }
+    val job = Job()
+    val scope = CoroutineScope(job)
+    val context get() = KndroidConfig.context!!
 }

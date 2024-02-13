@@ -5,6 +5,10 @@ package kndroidx.preference
 import android.content.Context
 import android.content.SharedPreferences
 import kndroidx.KndroidX.context
+import kndroidx.kndroidx
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlin.reflect.KProperty
 
 open class PreferencesX(private val sp: SharedPreferences) {
@@ -38,7 +42,19 @@ class Preference<T>(
     private val name: String,
     private val defaultValue: T,
 ) {
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
+    val state: Flow<T> get() = _state
+    private val _state: MutableStateFlow<T>
+
+    init {
+        _state = MutableStateFlow(getValue())
+    }
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>) = getValue()
+
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = setValue(value)
+
+
+    fun getValue(): T {
         with(sp) {
             return when (defaultValue) {
                 is Int -> getInt(name, defaultValue) as T
@@ -52,7 +68,7 @@ class Preference<T>(
         }
     }
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+    fun setValue(value: T) {
         with(sp.edit()) {
             when (value) {
                 is Int -> putInt(name, value)
@@ -64,8 +80,14 @@ class Preference<T>(
                 else -> throw IllegalArgumentException("Unsupported type")
             }
             apply()
+            kndroidx {
+                scope.launch {
+                    _state.emit(value)
+                }
+            }
         }
     }
+
 }
 
 
