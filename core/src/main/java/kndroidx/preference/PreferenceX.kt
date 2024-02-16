@@ -35,6 +35,59 @@ open class PreferencesX(private val sp: SharedPreferences) {
 
     fun booleanPreference(name: String, defaultValue: Boolean) = Preference(sp, name, defaultValue)
 
+    fun <T> enumPreference(name: String, defaultValue: T) = EnumPreference(sp, name, defaultValue)
+
+}
+
+class EnumPreference<T>(
+    private val sp: SharedPreferences,
+    private val name: String,
+    private val defaultValue: T
+) {
+    val state: Flow<T> get() = _state
+    private val _state: MutableStateFlow<T>
+
+    init {
+        if (!defaultValue!!::class.java.isEnum) {
+            throw IllegalStateException("Only For Enum Class.")
+        }
+        _state = MutableStateFlow(getValue())
+    }
+
+    fun getEnumName(enum: T): String = enum!!::class.java.getDeclaredField("name").apply {
+        isAccessible = true
+
+    }.get(enum) as String
+
+    fun getEnum(enum: String): T = defaultValue!!::class.java.declaringClass.getDeclaredMethod(
+        "valueOf",
+        String::class.java
+    ).apply {
+        isAccessible = true
+    }.invoke(enum) as T
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>) = getValue()
+
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = setValue(value)
+
+
+    fun getValue(): T {
+        with(sp) {
+            return getEnum(getString(name, getEnumName(defaultValue)) ?: getEnumName(defaultValue))
+        }
+    }
+
+    fun setValue(value: T) {
+        with(sp.edit()) {
+            putString(name, getEnumName(defaultValue))
+            apply()
+            kndroidx {
+                scope.launch {
+                    _state.emit(value)
+                }
+            }
+        }
+    }
 }
 
 class Preference<T>(
