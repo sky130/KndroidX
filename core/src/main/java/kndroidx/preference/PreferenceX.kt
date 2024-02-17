@@ -54,17 +54,14 @@ class EnumPreference<T>(
         _state = MutableStateFlow(getValue())
     }
 
-    fun getEnumName(enum: T): String = enum!!::class.java.getDeclaredField("name").apply {
-        isAccessible = true
+    fun getEnumName(enum: T): String = enum.toString()
 
-    }.get(enum) as String
-
-    fun getEnum(enum: String): T = defaultValue!!::class.java.declaringClass.getDeclaredMethod(
+    fun getEnum(enum: String): T = defaultValue!!::class.java.getDeclaredMethod(
         "valueOf",
         String::class.java
     ).apply {
         isAccessible = true
-    }.invoke(enum) as T
+    }.invoke(defaultValue, enum) as T
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = getValue()
 
