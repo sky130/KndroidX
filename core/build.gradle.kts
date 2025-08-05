@@ -23,7 +23,7 @@ publishing {
 
 
 android {
-    compileSdk = 35
+    compileSdk = 36
     namespace = "com.github.kndroidx"
     defaultConfig {
         namespace = "com.github.kndroidx"

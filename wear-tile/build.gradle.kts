@@ -23,7 +23,7 @@ publishing {
 
 android {
     namespace = "kndroidx.wear.tile"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 26
