@@ -1,34 +1,24 @@
 package kndroidx.activity
 
+import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
-import java.lang.reflect.ParameterizedType
+import com.github.kndroidx.BR
 
-abstract class ViewActivityX<VB : ViewBinding, VM : ViewModel> : BaseActivityX() {
+abstract class ViewActivityX<VB : ViewBinding>(inflate: (LayoutInflater) -> VB) :
+    BaseActivityX() {
 
-    open val binding by lazy { createViewBinding<VB>(layoutInflater) }
-    private var _viewModel: VM? = null
-    val viewModel get() = _viewModel!!
+    open val binding by lazy { inflate.invoke(layoutInflater) }
+    abstract val viewModel: ViewModel
 
     override fun onCreateView(): View {
-        _viewModel = createViewModel(1)
         if (binding is ViewDataBinding) {
-            (binding as ViewDataBinding).lifecycleOwner = this
-            try {
-                val vbClass =
-                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<Any>>()
-                val set = vbClass[0].getMethod("setViewModel", vbClass[1])
-                set.invoke(binding, viewModel)
-            } catch (_: Exception) {
-            }
-            try {
-                val vbClass =
-                    (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<Any>>()
-                val set = vbClass[0].getMethod("setActivity", this::class.java)
-                set.invoke(binding, this)
-            } catch (_: Exception) {
+            with(binding as ViewDataBinding) {
+                lifecycleOwner = this@ViewActivityX
+                setVariable(BR.viewModel, viewModel)
+                setVariable(BR.activity, this@ViewActivityX)
             }
         }
         return binding.root

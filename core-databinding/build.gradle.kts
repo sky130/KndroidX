@@ -1,31 +1,18 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("maven-publish")
     id("kotlin-kapt")
 }
 
-val GROUP_ID = "com.github.kndroidx"
-val ARTIFACT_ID = "core-databinding"
-val VERSION = latestGitTag().ifEmpty { "0.1.1-alpha" }
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId =  "com.github.kndroidx"
+            artifactId = "core-databinding"
+            version =  libs.versions.kndroidx.project.get()
 
-fun latestGitTag(): String {
-    val process = ProcessBuilder("git", "describe", "--tags", "--abbrev=0").start()
-    return process.inputStream.bufferedReader().use { bufferedReader ->
-        bufferedReader.readText().trim()
-    }
-}
-
-
-publishing { // 发布配置
-    publications { // 发布的内容
-        register<MavenPublication>("release") { // 注册一个名字为 release 的发布内容
-            groupId = GROUP_ID
-            artifactId = ARTIFACT_ID
-            version = VERSION
-
-            afterEvaluate { // 在所有的配置都完成之后执行
-                // 从当前 module 的 release 包中发布
+            afterEvaluate {
                 from(components["release"])
             }
         }
@@ -37,13 +24,10 @@ publishing { // 发布配置
 
 android {
     namespace = "com.github.kndroidx"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 23
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -69,8 +53,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.core:core-ktx:1.12.0")
+    api(libs.androidx.core.ktx)
+    api(libs.androidx.appcompat)
+
     implementation(project(":core"))
-    implementation("androidx.appcompat:appcompat:1.6.1")
 }

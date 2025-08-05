@@ -15,6 +15,7 @@ fun kndroidxConfig(block: KndroidConfig.() -> Unit) {
     KndroidConfig.block()
 }
 
+@SuppressLint("StaticFieldLeak")
 object KndroidConfig {
     var context: Context? = null
         get() = field.apply {

@@ -1,15 +1,15 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("maven-publish")
 }
 
-publishing { // 发布配置
-    publications { // 发布的内容
-        register<MavenPublication>("release") { // 注册一个名字为 release 的发布内容
+publishing {
+    publications {
+        register<MavenPublication>("release") {
             groupId = "com.github.kndroidx"
             artifactId = "wear-tile"
-            version =  latestGitTag().ifEmpty { "0.1.1-alpha" }
+            version =  libs.versions.kndroidx.project.get()
 
             afterEvaluate {
                 from(components["release"])
@@ -21,17 +21,9 @@ publishing { // 发布配置
     }
 }
 
-fun latestGitTag(): String {
-    val process = ProcessBuilder("git", "describe", "--tags", "--abbrev=0").start()
-    return process.inputStream.bufferedReader().use { bufferedReader ->
-        bufferedReader.readText().trim()
-    }
-}
-
-
 android {
     namespace = "kndroidx.wear.tile"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -59,16 +51,16 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
 
-    implementation("androidx.wear:wear:1.4.0-alpha01")
-    implementation("androidx.wear.tiles:tiles:1.3.0-rc01")
-    implementation("androidx.wear.protolayout:protolayout:1.1.0-rc01")
-    implementation("androidx.wear.protolayout:protolayout-material:1.1.0-rc01")
-    implementation("androidx.wear.protolayout:protolayout-expression:1.1.0-rc01")
-    implementation("androidx.concurrent:concurrent-futures:1.1.0")
-    implementation("com.google.guava:guava:31.0.1-android")
+    implementation(libs.androidx.wear)
+    implementation(libs.androidx.tiles)
+    implementation(libs.androidx.protolayout)
+    implementation(libs.protolayout.material)
+    implementation(libs.protolayout.expression)
+    implementation(libs.google.guava)
+    implementation(libs.androidx.concurrent.futures)
 
     implementation(project(":core"))
 }

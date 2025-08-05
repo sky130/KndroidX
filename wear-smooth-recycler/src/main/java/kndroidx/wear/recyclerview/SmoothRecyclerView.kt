@@ -2,6 +2,7 @@ package kndroidx.wear.recyclerview
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
@@ -18,13 +19,11 @@ import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.wear.widget.WearableLinearLayoutManager
-import java.util.ArrayList
 import kotlin.math.abs
 import androidx.wear.widget.WearableRecyclerView as RV
 
 // 这玩意，能跑就成
-class SmoothRecyclerView(context: Context, attr: AttributeSet) : RV(context, attr),
+class SmoothGridRecyclerView(context: Context, attr: AttributeSet) : RV(context, attr),
     SeslwBezelEventTimerListener {
 
     private var mSeslwBezelEventTimer: SeslwBezelEventTimer? = null
@@ -39,6 +38,8 @@ class SmoothRecyclerView(context: Context, attr: AttributeSet) : RV(context, att
     private var mScroll = 0
 
 
+
+    @SuppressLint("WrongConstant")
     override fun onGenericMotionEvent(var1: MotionEvent): Boolean {
         return if (getLayoutHook() == null) {
             false
@@ -518,7 +519,7 @@ class SmoothRecyclerView(context: Context, attr: AttributeSet) : RV(context, att
 
 
     override fun setLayoutManager(layout: LayoutManager?) {
-        super.setLayoutManager(WearableLinearLayoutManager(context, null))
+        super.setLayoutManager(layout)
     }
 
     class SeslwBezelEventTimer(paramSeslwBezelEventTimerListener: SeslwBezelEventTimerListener) :
@@ -623,7 +624,7 @@ class SmoothRecyclerView(context: Context, attr: AttributeSet) : RV(context, att
                 }
 
                 override fun setValue(param1View: View?, param1Float: Float) {
-                    if (param1View is SmoothRecyclerView) {
+                    if (param1View is SmoothGridRecyclerView) {
                         val recyclerView = param1View
                         val i = param1Float.toInt() - mPrevScrollOffset.toInt()
                         mPrevScrollOffset = (param1Float)
@@ -645,7 +646,7 @@ class SmoothRecyclerView(context: Context, attr: AttributeSet) : RV(context, att
                 }
 
                 override fun setValue(param1View: View?, param1Float: Float) {
-                    if (param1View is SmoothRecyclerView) {
+                    if (param1View is SmoothGridRecyclerView) {
                         val recyclerView = param1View
                         val i = param1Float.toInt() - mPrevScrollOffset.toInt()
                         mPrevScrollOffset = (param1Float)

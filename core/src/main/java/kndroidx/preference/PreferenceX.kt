@@ -6,11 +6,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import kndroidx.KndroidX.context
 import kndroidx.kndroidx
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.reflect.KProperty
 
+@Deprecated("turn to use Setting")
 open class PreferencesX(private val sp: SharedPreferences) {
 
     constructor(name: String, mode: Int = Context.MODE_PRIVATE) : this(
@@ -23,17 +24,17 @@ open class PreferencesX(private val sp: SharedPreferences) {
         return sp
     }
 
-    fun intPreference(name: String, defaultValue: Int) = Preference(sp, name, defaultValue)
+    fun int(name: String, defaultValue: Int) = Preference(sp, name, defaultValue)
 
-    fun stringPreference(name: String, defaultValue: String) = Preference(sp, name, defaultValue)
+    fun string(name: String, defaultValue: String) = Preference(sp, name, defaultValue)
 
-    fun longPreference(name: String, defaultValue: Long) = Preference(sp, name, defaultValue)
+    fun long(name: String, defaultValue: Long) = Preference(sp, name, defaultValue)
 
-    fun floatPreference(name: String, defaultValue: Float) = Preference(sp, name, defaultValue)
+    fun float(name: String, defaultValue: Float) = Preference(sp, name, defaultValue)
 
-    fun setPreference(name: String, defaultValue: Set<String>) = Preference(sp, name, defaultValue)
+    fun set(name: String, defaultValue: Set<String>) = Preference(sp, name, defaultValue)
 
-    fun booleanPreference(name: String, defaultValue: Boolean) = Preference(sp, name, defaultValue)
+    fun boolean(name: String, defaultValue: Boolean) = Preference(sp, name, defaultValue)
 
 }
 
@@ -42,17 +43,12 @@ class Preference<T>(
     private val name: String,
     private val defaultValue: T,
 ) {
-    val state: Flow<T> get() = _state
-    private val _state: MutableStateFlow<T>
-
-    init {
-        _state = MutableStateFlow(getValue())
-    }
+    private val _state: MutableStateFlow<T> =  MutableStateFlow(getValue())
+    val state = _state.asStateFlow()
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = getValue()
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = setValue(value)
-
 
     fun getValue(): T {
         with(sp) {

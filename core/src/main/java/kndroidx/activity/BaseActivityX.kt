@@ -25,6 +25,7 @@ abstract class BaseActivityX : AppCompatActivity() {
 
     abstract fun onCreateView(): View
 
+    @Deprecated("")
     fun <VM : ViewModel> Any.createViewModel(position: Int = 0): VM {
         val vbClass =
             (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VM>>()
@@ -32,6 +33,7 @@ abstract class BaseActivityX : AppCompatActivity() {
         return ViewModelProvider(this@BaseActivityX)[viewModel]
     }
 
+    @Deprecated("")
     fun <VB : ViewBinding> Any.createViewBinding(
         layoutInflater: LayoutInflater = this@BaseActivityX.layoutInflater,
         position: Int = 0,

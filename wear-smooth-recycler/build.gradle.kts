@@ -1,15 +1,15 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("maven-publish")
 }
 
-publishing { // 发布配置
-    publications { // 发布的内容
-        register<MavenPublication>("release") { // 注册一个名字为 release 的发布内容
+publishing {
+    publications {
+        register<MavenPublication>("release") {
             groupId = "com.github.kndroidx"
             artifactId = "wear-smooth-recycler"
-            version =  latestGitTag().ifEmpty { "0.1.1-alpha" }
+            version =  libs.versions.kndroidx.project.get()
 
             afterEvaluate {
                 from(components["release"])
@@ -21,16 +21,9 @@ publishing { // 发布配置
     }
 }
 
-fun latestGitTag(): String {
-    val process = ProcessBuilder("git", "describe", "--tags", "--abbrev=0").start()
-    return process.inputStream.bufferedReader().use { bufferedReader ->
-        bufferedReader.readText().trim()
-    }
-}
-
 android {
     namespace = "kndroidx.wear.recyclerview"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -55,8 +48,10 @@ android {
 }
 
 dependencies {
-    api("androidx.core:core-ktx:1.12.0")
-    api("androidx.appcompat:appcompat:1.6.1")
-    api("androidx.wear:wear:1.4.0-alpha01")
+    api(libs.androidx.core.ktx)
+    api(libs.androidx.appcompat)
+    api(libs.androidx.recycler)
+    api(libs.androidx.wear)
+
     implementation(project(":core"))
 }

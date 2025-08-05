@@ -34,6 +34,7 @@ abstract class BaseFragmentX : Fragment() {
 
     abstract fun onCreateView(inflater: LayoutInflater): View
 
+    @Deprecated("")
     fun <VM : ViewModel> createViewModel(position: Int = 0): VM {
         val vbClass =
             (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.filterIsInstance<Class<VM>>()
@@ -41,6 +42,7 @@ abstract class BaseFragmentX : Fragment() {
         return ViewModelProvider(requireActivity())[viewModel]
     }
 
+    @Deprecated("")
     fun <VB : ViewBinding> createViewBinding(
         layoutInflater: LayoutInflater,
         position: Int = 0,
