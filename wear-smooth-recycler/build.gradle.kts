@@ -26,7 +26,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 21
     }
 
     buildTypes {
