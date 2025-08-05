@@ -2,7 +2,26 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    id("maven-publish")
 }
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.github.kndroidx"
+            artifactId = "recycler-databinding"
+            version =  libs.versions.kndroidx.project.get()
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
 
 android {
     namespace = "kndroidx.databinding.recycler"
