@@ -16,7 +16,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "KndroidX"
-include(":app")
 include(":core")
 include(":core-databinding")
 include(":wear-tile")
