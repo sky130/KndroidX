@@ -10,7 +10,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.kndroidx"
             artifactId = "recycler-databinding"
-            version =  libs.versions.kndroidx.project.get()
+            version = libs.versions.kndroidx.project.get()
 
             afterEvaluate {
                 from(components["release"])
@@ -24,14 +24,11 @@ publishing {
 
 
 android {
-    namespace = "kndroidx.databinding.recycler"
+    namespace = "com.github.kndroidx"
     compileSdk = 36
 
     defaultConfig {
         minSdk = 21
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -44,11 +41,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
     buildFeatures {
         viewBinding = true

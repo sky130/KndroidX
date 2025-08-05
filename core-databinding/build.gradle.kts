@@ -8,9 +8,9 @@ plugins {
 publishing {
     publications {
         register<MavenPublication>("release") {
-            groupId =  "com.github.kndroidx"
+            groupId = "com.github.kndroidx"
             artifactId = "core-databinding"
-            version =  libs.versions.kndroidx.project.get()
+            version = libs.versions.kndroidx.project.get()
 
             afterEvaluate {
                 from(components["release"])
@@ -27,7 +27,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 23
+        minSdk = 21
     }
 
     buildTypes {
