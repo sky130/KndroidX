@@ -1,9 +1,8 @@
 package kndroidx.databinding.recycler
 
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.github.kndroidx.BR
+import kndroidx.recycler.databinding.BR
 
 class BindingViewHolder<T, BINDING : ViewDataBinding>(val binding: BINDING)
     : RecyclerView.ViewHolder(binding.root){

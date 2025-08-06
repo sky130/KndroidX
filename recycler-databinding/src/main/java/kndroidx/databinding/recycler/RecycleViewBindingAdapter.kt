@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
-import com.github.kndroidx.R
+import kndroidx.recycler.databinding.R
 
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter(

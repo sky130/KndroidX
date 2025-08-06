@@ -4,10 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableList
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import kndroidx.databinding.recycler.BaseBindingAdapter.OnItemClickListener
 
 class ItemBindingAdapter :
