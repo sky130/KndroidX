@@ -1,16 +1,15 @@
 package kndroidx.databinding.recycler
 
-import android.app.Activity
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import androidx.annotation.LayoutRes
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
+import com.github.kndroidx.R
 
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter(
