@@ -24,7 +24,7 @@ publishing {
 
 
 android {
-    namespace = "com.github.kndroidx"
+    namespace = "kndroidx.recycler.databinding"
     compileSdk = 36
 
     defaultConfig {
