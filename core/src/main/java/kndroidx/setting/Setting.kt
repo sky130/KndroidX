@@ -61,14 +61,14 @@ class SettingItem<T>(
     val liveData = state.asLiveData()
 
     var value: T
-        get() = getValue()
-        set(value) = setValue(value)
+        get() = _getValue()
+        set(value) = _setValue(value)
 
-    operator fun getValue(thisRef: Any?, property: KProperty<*>) = getValue()
+    operator fun getValue(thisRef: Any?, property: KProperty<*>) = _getValue()
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = setValue(value)
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = _setValue(value)
 
-    fun getValue(): T {
+    private fun _getValue(): T {
         with(sp) {
             return when (defaultValue) {
                 is Int -> getInt(name, defaultValue) as T
@@ -82,7 +82,7 @@ class SettingItem<T>(
         }
     }
 
-    fun setValue(value: T) {
+    private fun _setValue(value: T) {
         sp.edit {
             when (value) {
                 is Int -> putInt(name, value)
@@ -110,20 +110,20 @@ class SettingEnumItem<T>(
     val liveData = state.asLiveData()
 
     var value: T
-        get() = getValue()
-        set(value) = setValue(value)
+        get() = _getValue()
+        set(value) = _setValue(value)
 
-    operator fun getValue(thisRef: Any?, property: KProperty<*>) = getValue()
+    operator fun getValue(thisRef: Any?, property: KProperty<*>) = _getValue()
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = setValue(value)
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = _setValue(value)
 
-    fun getValue(): T {
+    private fun _getValue(): T {
         with(sp) {
             return decode(getString(name, encode(defaultValue))!!)
         }
     }
 
-    fun setValue(value: T) {
+    private fun _setValue(value: T) {
         sp.edit {
             putString(name, encode(value))
             _state.value = value
