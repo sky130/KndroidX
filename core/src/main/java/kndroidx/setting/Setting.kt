@@ -56,7 +56,7 @@ class SettingItem<T>(
     private val defaultValue: T,
 ) {
 
-    private val _state: MutableStateFlow<T> = MutableStateFlow(getValue())
+    private val _state: MutableStateFlow<T> = MutableStateFlow(_getValue())
     val state = _state.asStateFlow()
     val liveData = state.asLiveData()
 
