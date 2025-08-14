@@ -1,6 +1,6 @@
 [versions]
 
-kndroidx-project = "1.0.1"
+kndroidx-project = "1.0.2"
 
 agp = "8.11.1"
 blurview = "version-3.0.0"

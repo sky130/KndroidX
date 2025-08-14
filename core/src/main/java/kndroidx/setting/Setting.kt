@@ -60,6 +60,10 @@ class SettingItem<T>(
     val state = _state.asStateFlow()
     val liveData = state.asLiveData()
 
+    var value: T
+        get() = getValue()
+        set(value) = setValue(value)
+
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = getValue()
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = setValue(value)
@@ -104,6 +108,10 @@ class SettingEnumItem<T>(
     private val _state: MutableStateFlow<T> = MutableStateFlow(defaultValue)
     val state = _state.asStateFlow()
     val liveData = state.asLiveData()
+
+    var value: T
+        get() = getValue()
+        set(value) = setValue(value)
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = getValue()
 

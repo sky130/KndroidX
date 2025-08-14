@@ -22,7 +22,6 @@ publishing {
     }
 }
 
-
 android {
     namespace = "kndroidx.recycler.databinding"
     compileSdk = 36
