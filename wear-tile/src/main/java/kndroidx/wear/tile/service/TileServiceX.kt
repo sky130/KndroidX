@@ -10,7 +10,10 @@ import androidx.wear.tiles.TileBuilders
 import androidx.wear.tiles.TileService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import kndroidx.wear.tile.ArcWrapper
 import kndroidx.wear.tile.Clickable
+import kndroidx.wear.tile.Wrapper
+import kndroidx.wear.tile.clickable
 import kndroidx.wear.tile.entity.ByteImage
 import kndroidx.wear.tile.entity.Image
 import kndroidx.wear.tile.entity.ResImage
@@ -18,7 +21,6 @@ import kndroidx.wear.tile.entity.ResImage
 abstract class TileServiceX : TileService() {
     private val imageMap = ArrayMap<String, Image>()
     private val clickableMap = ArrayMap<String, () -> Unit>()
-
     abstract val version: String
 
     abstract fun onClick(id: String)
@@ -29,7 +31,6 @@ abstract class TileServiceX : TileService() {
         clickableMap[id]?.invoke()
     }
 
-    @Suppress("FunctionName")
     fun Clickable(id: String, block: () -> Unit) = Clickable(id).apply {
         clickableMap[id] = block
     }
@@ -102,6 +103,7 @@ abstract class TileServiceX : TileService() {
                         .build()
                 ).build()
         ).build()
+    fun ArcWrapper.onClick(block: () -> Unit) = apply { clickable(Clickable(id, block)) }
 
-
+    fun Wrapper.onClick(block: () -> Unit) = apply { clickable(Clickable(id, block)) }
 }

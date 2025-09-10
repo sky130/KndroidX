@@ -1,3 +1,5 @@
+@file:OptIn(ProtoLayoutExperimental::class)
+
 package kndroidx.wear.tile
 
 import androidx.annotation.OptIn
@@ -10,34 +12,62 @@ import androidx.wear.protolayout.ModifiersBuilders.Clickable
 import androidx.wear.protolayout.ModifiersBuilders.Semantics
 import androidx.wear.protolayout.TypeBuilders
 import androidx.wear.protolayout.expression.ProtoLayoutExperimental
+import androidx.wear.protolayout.ModifiersBuilders.ArcModifiers.Builder as ArcModifiersBuilder
 import androidx.wear.protolayout.ModifiersBuilders.Modifiers.Builder as ModifiersBuilder
 
+val Modifier get() = ModifierWrapper(ModifiersBuilder())
 
-val Modifier get() = ModifiersBuilder()
+typealias Wrapper = ModifierWrapper
 
-@OptIn(ProtoLayoutExperimental::class)
-fun ModifiersBuilder.visible(visible: Boolean) =
-    setVisible(TypeBuilders.BoolProp.Builder().setValue(visible).build())
+class ModifierWrapper(val builder: ModifiersBuilder) {
+    internal lateinit var width: DpProp
+    internal lateinit var height: DpProp
+    internal lateinit var id: String
+    fun arc() = ArcModifierWrapper(ArcModifiersBuilder())
+    fun build() = builder.build()
+}
 
-fun ModifiersBuilder.background(background: Background) = setBackground(background)
+fun Wrapper.width(value: DpProp) {
+    width = value
+}
 
-fun ModifiersBuilder.clickable(clickable: Clickable) = setClickable(clickable)
+fun Wrapper.height(value: DpProp) {
+    height = value
+}
 
-fun ModifiersBuilder.border(border: Border) = setBorder(border)
+fun Wrapper.size(value: DpProp) {
+    width(value)
+    height(value)
+}
 
-@OptIn(ProtoLayoutExperimental::class)
-fun ModifiersBuilder.animation(animatedVisibility: AnimatedVisibility) = setContentUpdateAnimation(animatedVisibility)
+fun Wrapper.id(id: String) = apply { this.id = id }
 
-fun ModifiersBuilder.semantics(semantics: Semantics) = setSemantics(semantics)
+fun Wrapper.visible(visible: Boolean) =
+    apply { builder.setVisible(TypeBuilders.BoolProp.Builder().setValue(visible).build()) }
 
-fun ModifiersBuilder.padding(
+fun Wrapper.background(background: Background) = apply { builder.setBackground(background) }
+
+fun Wrapper.clickable(clickable: Clickable) = apply { builder.setClickable(clickable) }
+
+fun Wrapper.border(border: Border) = apply { builder.setBorder(border) }
+
+fun Wrapper.animation(animatedVisibility: AnimatedVisibility) =
+    apply { builder.setContentUpdateAnimation(animatedVisibility) }
+
+fun Wrapper.semantics(block: Semantics.Builder.() -> Unit) =
+    apply { builder.setSemantics(Semantics.Builder().apply(block).build()) }
+
+fun Wrapper.padding(
     top: DpProp? = null,
     bottom: DpProp? = null,
     start: DpProp? = null,
     end: DpProp? = null,
+) = apply { builder.setPadding(Padding(top, bottom, start, end, null, null)) }
+
+fun Wrapper.padding(
     vertical: DpProp? = null,
     horizontal: DpProp? = null,
-) = setPadding(Padding(top, bottom, start, end, vertical, horizontal))
+) = apply { builder.setPadding(Padding(null, null, null, null, vertical, horizontal)) }
 
 fun Padding(
     top: DpProp?,

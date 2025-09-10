@@ -10,6 +10,10 @@ import androidx.wear.protolayout.LayoutElementBuilders.Row
 import androidx.wear.tiles.TileService
 import kndroidx.wear.tile.layout.Grid
 
+val Number.em get() = DimensionBuilders.em(this.toFloat())
+
+val Number.sp get() = DimensionBuilders.sp(this.toFloat())
+
 val Number.dp get() = DimensionBuilders.dp(this.toFloat())
 
 val Number.color get() = argb(toInt())
@@ -23,6 +27,23 @@ fun Horizontal(value: Int) = LayoutElementBuilders.HorizontalAlignmentProp.Build
 fun Vertical(value: Int) = LayoutElementBuilders.VerticalAlignmentProp.Builder().setValue(
     value
 ).build()
+
+fun addLayoutElement(parent: Any, child: LayoutElementBuilders.ArcLayoutElement) {
+    when (parent) {
+        is LayoutElementBuilders.Arc.Builder -> {
+            parent.addContent(child)
+        }
+
+        is TileService -> Unit
+
+        is Tile -> Unit
+
+        else -> {
+            throw IllegalStateException("Tile Fun is only can be call in Layout Block.")
+        }
+    }
+}
+
 
 
 fun addLayoutElement(parent: Any, child: LayoutElement) {
