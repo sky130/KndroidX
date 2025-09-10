@@ -12,9 +12,8 @@ fun Any.Image(
     if (resId.isNotEmpty()) setResourceId(resId)
     modifier?.let {
         setModifiers(it.build())
-        it.layout(width = {}, height = {
-            setWidth()
-        })
+        setWidth(it.width)
+        setHeight(it.height)
     }
     block?.invoke(this)
 }.build().apply {

@@ -1,13 +1,15 @@
 package kndroidx.wear.tile.layout
 
 import androidx.wear.protolayout.DimensionBuilders.expand
-import androidx.wear.protolayout.DimensionBuilders.weight
 import androidx.wear.protolayout.DimensionBuilders.wrap
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.Row.Builder
+import kndroidx.wear.tile.Modifier
 import kndroidx.wear.tile.ModifierWrapper
 import kndroidx.wear.tile.Tile
 import kndroidx.wear.tile.dp
+import kndroidx.wear.tile.height
+import kndroidx.wear.tile.weight
 
 @Suppress("FunctionName")
 fun Any.Grid(
@@ -39,7 +41,13 @@ class Grid(
         column.addContent(row.apply {
             var x = spanCount - row.build().contents.size
             while (x != 0) {
-                row.addContent(Tile.Box(width = weight(1f), height = 0.dp))
+                row.addContent(
+                    Tile.Box(
+                        Modifier
+                            .weight(width = 1f)
+                            .height(0.dp)
+                    )
+                )
                 x--
             }
         }.build())
