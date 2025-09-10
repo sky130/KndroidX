@@ -3,7 +3,11 @@
 package kndroidx.wear.tile
 
 import androidx.annotation.OptIn
+import androidx.wear.protolayout.DimensionBuilders
+import androidx.wear.protolayout.DimensionBuilders.ContainerDimension
 import androidx.wear.protolayout.DimensionBuilders.DpProp
+import androidx.wear.protolayout.DimensionBuilders.expand
+import androidx.wear.protolayout.DimensionBuilders.wrap
 import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.ModifiersBuilders.AnimatedVisibility
 import androidx.wear.protolayout.ModifiersBuilders.Background
@@ -22,18 +26,60 @@ typealias Wrapper = ModifierWrapper
 class ModifierWrapper(val builder: ModifiersBuilder) {
     internal lateinit var width: DpProp
     internal lateinit var height: DpProp
+    internal lateinit var containerWidth: ContainerDimension
+    internal lateinit var containerHeight: ContainerDimension
     internal lateinit var id: String
+
+    internal fun layout(
+        width: (ContainerDimension) -> Unit,
+        height: (ContainerDimension) -> Unit
+    ) {
+        width(
+            if (::containerWidth.isInitialized) {
+                containerHeight
+            } else {
+                this.width
+            }
+        )
+        height(
+            if (::containerHeight.isInitialized) {
+                containerHeight
+            } else {
+                this.height
+            }
+        )
+    }
+
     fun arc() = ArcModifierWrapper(ArcModifiersBuilder())
     fun build() = builder.build()
 }
 
-fun Wrapper.width(value: DpProp) {
-    width = value
+fun Wrapper.wrapContentSize() = apply {
+    containerWidth = wrap()
+    containerHeight = wrap()
 }
 
-fun Wrapper.height(value: DpProp) {
-    height = value
+fun Wrapper.weight(weight: Float) = apply {
+    weight(weight, weight)
 }
+
+fun Wrapper.weight(width: Float? = null, height: Float? = null) = apply {
+    width?.let { containerWidth = DimensionBuilders.weight(it) }
+    height?.let { containerHeight = DimensionBuilders.weight(it) }
+}
+
+fun Wrapper.fillMaxWidth() = apply { containerWidth = expand() }
+
+fun Wrapper.fillMaxHeight() = apply { containerWidth = expand() }
+
+fun Wrapper.fillMaxSize() = apply {
+    fillMaxWidth()
+    fillMaxHeight()
+}
+
+fun Wrapper.width(value: DpProp) = apply { width = value }
+
+fun Wrapper.height(value: DpProp) = apply { height = value }
 
 fun Wrapper.size(value: DpProp) {
     width(value)
@@ -43,7 +89,7 @@ fun Wrapper.size(value: DpProp) {
 fun Wrapper.id(id: String) = apply { this.id = id }
 
 fun Wrapper.visible(visible: Boolean) =
-    apply { builder.setVisible(TypeBuilders.BoolProp.Builder().setValue(visible).build()) }
+    apply { builder.setVisible(TypeBuilders.BoolProp.Builder(visible).build()) }
 
 fun Wrapper.background(background: Background) = apply { builder.setBackground(background) }
 
