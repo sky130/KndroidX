@@ -1,29 +1,48 @@
 package kndroidx.wear.tile.service
 
-import android.annotation.SuppressLint
-import android.util.ArrayMap
 import androidx.annotation.DrawableRes
+import androidx.collection.ArrayMap
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders
-import androidx.wear.tiles.EventBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
 import androidx.wear.tiles.TileService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import kndroidx.wear.tile.Clickable
+import kndroidx.wear.tile.entity.ByteImage
+import kndroidx.wear.tile.entity.Image
+import kndroidx.wear.tile.entity.ResImage
 
 abstract class TileServiceX : TileService() {
-
-    abstract fun onLayout(): LayoutElementBuilders.LayoutElement
+    private val imageMap = ArrayMap<String, Image>()
+    private val clickableMap = ArrayMap<String, () -> Unit>()
 
     abstract val version: String
 
     abstract fun onClick(id: String)
+    abstract fun onResourcesRequest()
+    abstract fun onLayout(): LayoutElementBuilders.LayoutElement
 
-    abstract fun onEnter()
+    protected fun autoHandle(id: String) {
+        clickableMap[id]?.invoke()
+    }
 
-    open val imageMap = ArrayMap<String, Image>()
+    @Suppress("FunctionName")
+    fun Clickable(id: String, block: () -> Unit) = Clickable(id).apply {
+        clickableMap[id] = block
+    }
+
+    @Suppress("FunctionName")
+    fun ResImage(id: String, @DrawableRes resId: Int) {
+        imageMap[id] = ResImage(resId)
+    }
+
+    @Suppress("FunctionName")
+    fun ByteImage(id: String, byteArray: ByteArray) {
+        imageMap[id] = ByteImage(byteArray)
+    }
 
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<TileBuilders.Tile> =
         Futures.immediateFuture(
@@ -39,10 +58,6 @@ abstract class TileServiceX : TileService() {
                     )
                 ).build()
         )
-
-    override fun onTileEnterEvent(requestParams: EventBuilders.TileEnterEvent) {
-        onEnter()
-    }
 
     override fun onTileResourcesRequest(requestParams: RequestBuilders.ResourcesRequest): ListenableFuture<ResourceBuilders.Resources> =
         Futures.immediateFuture(
@@ -88,15 +103,5 @@ abstract class TileServiceX : TileService() {
                 ).build()
         ).build()
 
-    sealed class Image()
 
-    class ResImage(@DrawableRes val resId: Int) : Image()
-
-    class ByteImage(val byte: ByteArray) : Image()
-
-    @SuppressLint("SupportAnnotationUsage")
-    @DrawableRes
-    fun Int.toImage() = ResImage(this)
-
-    fun ByteArray.toImage() = ByteImage(this)
 }
