@@ -14,12 +14,12 @@ import kndroidx.wear.tile.weight
 @Suppress("FunctionName")
 fun Any.Grid(
     spanCount: Int = 1,
-    modifiers: ModifierWrapper? = null,
-    rowModifiers: ModifierWrapper? = null,
+    modifier: ModifierWrapper? = null,
+    rowModifier: ModifierWrapper? = null,
     block: Grid.() -> Unit = {},
-) = Column(modifiers) {
+) = Column(modifier) {
     if (spanCount < 1) throw IllegalStateException("SpanCount cannot be $spanCount.")
-    Grid(this, spanCount, rowModifiers).apply(block).build()
+    Grid(this, spanCount, rowModifier).apply(block).build()
 }
 
 class Grid(

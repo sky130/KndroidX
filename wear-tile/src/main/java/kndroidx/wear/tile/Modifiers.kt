@@ -70,7 +70,7 @@ fun Wrapper.weight(width: Float? = null, height: Float? = null) = apply {
 
 fun Wrapper.fillMaxWidth() = apply { containerWidth = expand() }
 
-fun Wrapper.fillMaxHeight() = apply { containerWidth = expand() }
+fun Wrapper.fillMaxHeight() = apply { containerHeight = expand() }
 
 fun Wrapper.fillMaxSize() = apply {
     fillMaxWidth()
