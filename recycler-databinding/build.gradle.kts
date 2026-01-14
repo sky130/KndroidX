@@ -37,9 +37,6 @@ android {
             withJavadocJar()
         }
     }
-    sourceSets {
-        this["debug"].java.srcDir("build/generated/source/kapt/release")
-    }
 }
 
 afterEvaluate {
