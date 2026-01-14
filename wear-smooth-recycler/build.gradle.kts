@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.android)
     id("maven-publish")
 }
 
@@ -9,7 +9,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.kndroidx"
             artifactId = "wear-smooth-recycler"
-            version =  libs.versions.kndroidx.project.get()
+            version = libs.versions.kndroidx.project.get()
 
             afterEvaluate {
                 from(components["release"])
@@ -39,18 +39,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
 dependencies {
     api(libs.androidx.core.ktx)
     api(libs.androidx.appcompat)
-    api(libs.androidx.recycler)
+    api(libs.androidx.recyclerview)
     api(libs.androidx.wear)
 
     implementation(project(":core"))

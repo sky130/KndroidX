@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableList
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ abstract class BaseBindingAdapter<T : Any, BINDING : ViewDataBinding> :
     var itemHelper: Any? = null
     var viewModel: Any? = null
     var activity: Any? = null
+    var fragment: Any? = null
     var item: List<T>? = null
         @SuppressLint("NotifyDataSetChanged")
         set(data) {
@@ -58,6 +60,7 @@ abstract class BaseBindingAdapter<T : Any, BINDING : ViewDataBinding> :
             setViewModel(viewModel)
             setItemEventHandler(itemEventHandler)
             setItemHelper(itemHelper)
+            setFragment(fragment)
         }
         bindClick(holder, binding)
         return holder

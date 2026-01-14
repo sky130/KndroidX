@@ -24,7 +24,9 @@
         <variable
             name="position"
             type="int" />
-
+        <variable
+            name="fragment"
+            type="Object" />
     </data>
 
     <LinearLayout

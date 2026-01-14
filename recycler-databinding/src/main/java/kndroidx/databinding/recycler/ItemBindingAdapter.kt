@@ -1,12 +1,11 @@
 package kndroidx.databinding.recycler
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
 import kndroidx.databinding.recycler.BaseBindingAdapter.OnItemClickListener
 
 class ItemBindingAdapter :
@@ -18,17 +17,19 @@ class ItemBindingAdapter :
     var itemHelper: Any? = null
     var viewModel: Any? = null
     var activity: Any? = null
-    var item: List<Item>? = null
-        @SuppressLint("NotifyDataSetChanged")
+    var fragment: Any? = null
+    var item: List<Item> = emptyList()
         set(data) {
             DiffUtil
-                .calculateDiff(CommonDiffCallback<Item>(field ?: emptyList(), data ?: emptyList()))
+                .calculateDiff(CommonDiffCallback(field, data))
                 .dispatchUpdatesTo(this)
             field = data
         }
+    val layoutItemType = mutableListOf<Int>()
+    val dataItemType = mutableListOf<Int>()
 
     fun getItem(position: Int): Item? {
-        return item?.getOrNull(position)
+        return item.getOrNull(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -39,10 +40,9 @@ class ItemBindingAdapter :
         parent: ViewGroup,
         viewType: Int
     ): BindingViewHolder<Item, ViewDataBinding> {
-        val layout = viewType
         val binding = DataBindingUtil.inflate<ViewDataBinding>(
             LayoutInflater.from(parent.context),
-            layout,
+            viewType,
             parent,
             false
         )
@@ -52,19 +52,72 @@ class ItemBindingAdapter :
             setActivity(activity)
             setViewModel(viewModel)
             setItemEventHandler(itemEventHandler)
+            setFragment(fragment)
             setItemHelper(itemHelper)
         }
-        bindClick(holder, binding)
+        if (viewType in dataItemType) {
+            bindClick(holder, binding)
+        }
         return holder
     }
 
+    fun bindClick(holder: BindingViewHolder<*, *>, binding: ViewDataBinding) {
+        fun getItem(): Any? {
+            val position = holder.layoutPosition
+            return getItem(position).let {
+                if (it is Item.Data<*>)
+                    it.data as Any
+                else
+                    null
+            }
+        }
+        itemClickListener?.let { listener ->
+            binding.root.setOnClickListener {
+                getItem()?.let {
+                    listener.onItemClick(it, holder.layoutPosition)
+                }
+            }
+        }
+        itemLongClickListener?.let { listener ->
+            binding.root.setOnLongClickListener {
+                getItem()?.let {
+                    listener.onItemClick(it, holder.layoutPosition)
+                }
+                return@setOnLongClickListener true
+            }
+        }
+    }
+
+
     override fun getItemViewType(position: Int): Int {
-        return item!![position].layout
+        return item[position].apply {
+            when (this) {
+                is Item.Layout -> layoutItemType.add(layout)
+                is Item.Data<*> -> {
+                    if (isClickable) {
+                        dataItemType.add(layout)
+                    } else {
+                        layoutItemType.add(layout)
+                    }
+                }
+            }
+        }.layout
+    }
+
+    override fun onBindViewHolder(
+        holder: BindingViewHolder<Item, ViewDataBinding>,
+        position: Int,
+        payloads: List<Any?>
+    ) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position)
+        }
+        super.onBindViewHolder(holder, position, payloads)
     }
 
     override fun onBindViewHolder(holder: BindingViewHolder<Item, ViewDataBinding>, position: Int) {
         with(holder) {
-            with(getItem(position)){
+            with(getItem(position)) {
                 if (this !is Item.Data<*>) return
                 forceBind(data)
             }
@@ -73,27 +126,7 @@ class ItemBindingAdapter :
     }
 
     override fun getItemCount(): Int {
-        return item?.size ?: 0
+        return item.size
     }
-
-
-    fun bindClick(holder: BindingViewHolder<*, *>, binding: ViewDataBinding) {
-        val position = holder.layoutPosition
-        val item = getItem(position)
-        if (item !is Item.Data<*>) return
-        val data = item.data as Any
-        itemClickListener?.let { listener ->
-            binding.root.setOnClickListener {
-                listener.onItemClick(data, position)
-            }
-        }
-        itemLongClickListener?.let { listener ->
-            binding.root.setOnLongClickListener {
-                listener.onItemClick(data, position)
-                return@setOnLongClickListener true
-            }
-        }
-    }
-
 
 }

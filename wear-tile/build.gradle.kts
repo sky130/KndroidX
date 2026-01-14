@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.android)
     id("maven-publish")
 }
 
@@ -9,7 +9,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.kndroidx"
             artifactId = "wear-tile"
-            version =  libs.versions.kndroidx.project.get()
+            version = libs.versions.kndroidx.project.get()
 
             afterEvaluate {
                 from(components["release"])
@@ -42,11 +42,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
@@ -55,10 +52,10 @@ dependencies {
     implementation(libs.androidx.appcompat)
 
     implementation(libs.androidx.wear)
-    implementation(libs.androidx.tiles)
-    implementation(libs.androidx.protolayout)
-    implementation(libs.protolayout.material)
-    implementation(libs.protolayout.expression)
+    implementation(libs.androidx.wear.tiles)
+    implementation(libs.androidx.wear.protolayout)
+    implementation(libs.androidx.wear.protolayout.material)
+    implementation(libs.androidx.wear.protolayout.expression)
     implementation(libs.google.guava)
     implementation(libs.androidx.concurrent.futures)
 

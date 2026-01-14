@@ -8,5 +8,9 @@ import androidx.lifecycle.LifecycleOwner
 
 @BindingAdapter(value = ["lifecycleOwner", "binding"], requireAll = true)
 fun View.bind(lifecycleOwner: LifecycleOwner, binding: ViewDataBinding) {
-    binding.lifecycleOwner = lifecycleOwner
+    try {
+        binding.lifecycleOwner = lifecycleOwner
+    } catch (_: Exception) {
+
+    }
 }

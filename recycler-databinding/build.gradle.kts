@@ -1,29 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("maven-publish")
 }
 
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.github.kndroidx"
-            artifactId = "recycler-databinding"
-            version = libs.versions.kndroidx.project.get()
-
-            afterEvaluate {
-                from(components["release"])
-            }
-        }
-    }
-    repositories {
-        mavenLocal()
-    }
-}
-
 android {
-    namespace = "kndroidx.recycler.databinding"
+    namespace = "kndroidx.databinding.recycler"
     compileSdk = 36
 
     defaultConfig {
@@ -40,18 +23,41 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
     sourceSets {
-        java.sourceSets
+        this["debug"].java.srcDir("build/generated/source/kapt/release")
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                groupId = "com.github.kndroidx"
+                artifactId = "recycler-databinding"
+                version = libs.versions.kndroidx.project.get()
+
+                afterEvaluate {
+                    from(components["release"])
+                }
+            }
+        }
+        repositories {
+            mavenLocal()
+        }
     }
 }
 
@@ -60,10 +66,9 @@ kapt {
 }
 
 dependencies {
-
     api(libs.androidx.core.ktx)
     api(libs.androidx.appcompat)
-    api(libs.androidx.recycler)
+    api(libs.androidx.recyclerview)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

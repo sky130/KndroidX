@@ -1,19 +1,31 @@
 package kndroidx.databinding.recycler
 
+import android.app.Activity
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import androidx.annotation.LayoutRes
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
-import kndroidx.recycler.databinding.R
 
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter(
-    value = ["item", "itemLayout", "itemClick", "itemLongClick", "itemViewType", "itemEventHandler", " itemHelper", "viewModel", "activity"],
+    value = [
+        "item",
+        "itemLayout",
+        "itemClick",
+        "itemLongClick",
+        "itemViewType",
+        "itemEventHandler",
+        "itemHelper",
+        "viewModel",
+        "activity",
+        "fragment"
+    ],
     requireAll = false
 )
 fun RecyclerView.setData(
@@ -25,7 +37,8 @@ fun RecyclerView.setData(
     itemEventHandler: Any?,
     itemHelper: Any?,
     viewModel: Any?,
-    activity: Any?
+    activity: Any?,
+    fragment: Any?
 ) {
     if (adapter == null) {
         if (itemLayout == null) {
@@ -39,6 +52,7 @@ fun RecyclerView.setData(
                     it.itemEventHandler = itemEventHandler
                     it.viewModel = viewModel
                     it.activity = activity
+                    it.fragment = fragment
                     it.itemHelper = itemHelper
                 }
             }
@@ -51,6 +65,7 @@ fun RecyclerView.setData(
                 it.itemEventHandler = itemEventHandler
                 it.viewModel = viewModel
                 it.activity = activity
+                it.fragment = fragment
                 it.itemHelper = itemHelper
             }
         }
@@ -61,15 +76,16 @@ fun RecyclerView.setData(
             it.itemClickListener = listener
             it.viewModel = viewModel
             it.itemLongClickListener = longListener
+            it.fragment = fragment
             it.activity = activity
             it.itemEventHandler = itemEventHandler
             it.itemHelper = itemHelper
         }
-    }else if (adapter is ItemBindingAdapter){
+    } else if (adapter is ItemBindingAdapter) {
         if (item == null) return
         runCatching {
             item as List<Item>
-           ( adapter as ItemBindingAdapter).item = item
+            (adapter as ItemBindingAdapter).item = item
         }
     }
 }
