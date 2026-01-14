@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core-databinding" />
+            <option value="$PROJECT_DIR$/media" />
+            <option value="$PROJECT_DIR$/media-demo" />
             <option value="$PROJECT_DIR$/recycler-databinding" />
             <option value="$PROJECT_DIR$/wear-smooth-recycler" />
             <option value="$PROJECT_DIR$/wear-tile" />
