@@ -18,12 +18,14 @@ abstract class BaseBindingAdapter<T : Any, BINDING : ViewDataBinding> :
     var itemEventHandler: Any? = null
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
+            if (field == value) return
             field = value
             notifyDataSetChanged()
         }
     var itemHelper: Any? = null
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
+            if (field == value) return
             field = value
             notifyDataSetChanged()
         }
