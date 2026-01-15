@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableList
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,17 @@ abstract class BaseBindingAdapter<T : Any, BINDING : ViewDataBinding> :
     var itemLongClickListener: OnItemClickListener<T>? = null
     var itemViewTypeCreator: ItemViewTypeCreator? = null
     var itemEventHandler: Any? = null
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
     var itemHelper: Any? = null
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
     var viewModel: Any? = null
     var activity: Any? = null
     var fragment: Any? = null

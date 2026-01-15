@@ -99,7 +99,6 @@ class ItemBindingAdapter :
         }
     }
 
-
     override fun getItemViewType(position: Int): Int {
         return item[position].apply {
             when (this) {
