@@ -83,6 +83,8 @@ abstract class BaseBindingAdapter<T : Any, BINDING : ViewDataBinding> :
     override fun onBindViewHolder(holder: BindingViewHolder<T, BINDING>, position: Int) {
         with(holder) {
             bind(getItem(position))
+            setItemEventHandler(itemEventHandler)
+            setItemHelper(itemHelper)
             setItemPosition(position)
         }
     }

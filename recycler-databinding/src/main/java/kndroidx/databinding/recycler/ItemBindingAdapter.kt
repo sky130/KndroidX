@@ -131,6 +131,8 @@ class ItemBindingAdapter :
                 if (this !is Item.Data<*>) return
                 forceBind(data)
             }
+            setItemEventHandler(itemEventHandler)
+            setItemHelper(itemHelper)
             setItemPosition(position)
         }
     }
