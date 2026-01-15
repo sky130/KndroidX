@@ -1,11 +1,12 @@
 package kndroidx.databinding.recycler
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import kndroidx.databinding.recycler.BaseBindingAdapter.OnItemClickListener
 
 class ItemBindingAdapter :
@@ -14,7 +15,17 @@ class ItemBindingAdapter :
     var itemClickListener: OnItemClickListener<Any>? = null
     var itemLongClickListener: OnItemClickListener<Any>? = null
     var itemEventHandler: Any? = null
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
     var itemHelper: Any? = null
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
     var viewModel: Any? = null
     var activity: Any? = null
     var fragment: Any? = null
