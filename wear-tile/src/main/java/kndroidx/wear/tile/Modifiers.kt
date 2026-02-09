@@ -24,8 +24,8 @@ val Modifier get() = ModifierWrapper(ModifiersBuilder())
 typealias Wrapper = ModifierWrapper
 
 class ModifierWrapper(val builder: ModifiersBuilder) {
-    internal lateinit var width: DpProp
-    internal lateinit var height: DpProp
+    internal var width: DpProp = 0.dp
+    internal var height: DpProp = 0.dp
     internal lateinit var containerWidth: ContainerDimension
     internal lateinit var containerHeight: ContainerDimension
     internal lateinit var id: String
@@ -36,7 +36,7 @@ class ModifierWrapper(val builder: ModifiersBuilder) {
     ) {
         width(
             if (::containerWidth.isInitialized) {
-                containerHeight
+                containerWidth
             } else {
                 this.width
             }
@@ -59,8 +59,16 @@ fun Wrapper.wrapContentSize() = apply {
     containerHeight = wrap()
 }
 
+fun Wrapper.wrapContentHeight() = apply {
+    containerHeight = wrap()
+}
+
+fun Wrapper.wrapContentWidth() = apply {
+    containerHeight = wrap()
+}
+
 fun Wrapper.weight(weight: Float) = apply {
-    weight(weight, weight)
+    containerWidth = wrap()
 }
 
 fun Wrapper.weight(width: Float? = null, height: Float? = null) = apply {

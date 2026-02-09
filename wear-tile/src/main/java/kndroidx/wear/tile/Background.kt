@@ -5,7 +5,12 @@ import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.ModifiersBuilders
 
 fun ShapeBackground(color: ColorBuilders.ColorProp, radius: DimensionBuilders.DpProp) =
-    ModifiersBuilders.Background.Builder().apply {
-        setColor(color)
-        setCorner(ModifiersBuilders.Corner.Builder().setRadius(radius).build())
-    }.build()
+    ModifiersBuilders.Background
+        .Builder()
+        .setColor(color)
+        .setCorner(
+            ModifiersBuilders.Corner.Builder()
+                .setRadius(radius)
+                .build()
+        )
+        .build()

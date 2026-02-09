@@ -11,10 +11,14 @@ typealias StringExtraBuilder = ActionBuilders.AndroidStringExtra.Builder
 typealias DoubleExtraBuilder = ActionBuilders.AndroidDoubleExtra.Builder
 typealias BooleanExtraBuilder = ActionBuilders.AndroidBooleanExtra.Builder
 
-fun Clickable(id: String) = ModifiersBuilders.Clickable.Builder().apply {
-    setId(id)
-    setOnClick(ActionBuilders.LoadAction.Builder().build())
-}.build()
+fun Clickable(id: String) =
+    ModifiersBuilders.Clickable.Builder()
+        .setId(id)
+        .setOnClick(
+            ActionBuilders.LoadAction.Builder()
+                .build()
+        )
+        .build()
 
 fun Clickable(
     id: String,
