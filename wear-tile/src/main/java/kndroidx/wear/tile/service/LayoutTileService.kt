@@ -111,7 +111,13 @@ abstract class LayoutTileService : TileService() {
     }
 
     @Suppress("FunctionName")
-    fun LayoutTileService.ByteImage(id: String, byteArray: ByteArray) {
-        imageMap[id] = ByteImage(byteArray)
+    fun LayoutTileService.ByteImage(
+        id: String,
+        byteArray: ByteArray,
+        widthPx: Int = 48,
+        heightPx: Int = 48,
+        @ImageFormat format: Int = ResourceBuilders.IMAGE_FORMAT_RGB_565,
+    ) {
+        imageMap[id] = ByteImage(byteArray, widthPx, heightPx, format)
     }
 }
