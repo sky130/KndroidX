@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.collection.ArrayMap
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ResourceBuilders
+import androidx.wear.protolayout.ResourceBuilders.ImageFormat
 import androidx.wear.protolayout.TimelineBuilders.Timeline.fromLayoutElement
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
@@ -26,6 +27,10 @@ abstract class LayoutTileService : TileService() {
     abstract fun onClick(id: String)
     abstract fun onResourcesRequest()
     abstract fun onLayout(): LayoutElementBuilders.LayoutElement
+
+    init {
+        onResourcesRequest()
+    }
 
     protected fun invokeById(id: String) {
         clickableMap[id]?.invoke()
@@ -77,13 +82,14 @@ abstract class LayoutTileService : TileService() {
         itStr: String,
         byte: ByteArray,
         widthPx: Int = 48,
-        heightPx: Int = 48
+        heightPx: Int = 48,
+        @ImageFormat format: Int = ResourceBuilders.IMAGE_FORMAT_RGB_565,
     ) =
         ResourceBuilders.InlineImageResource.Builder()
             .setData(byte)
             .setWidthPx(widthPx)
             .setHeightPx(heightPx)
-            .setFormat(ResourceBuilders.IMAGE_FORMAT_RGB_565)
+            .setFormat(format)
             .build()
             .let {
                 ResourceBuilders.ImageResource.Builder()

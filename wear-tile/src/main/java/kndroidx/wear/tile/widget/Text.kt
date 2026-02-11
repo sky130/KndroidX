@@ -31,6 +31,4 @@ fun Any.Text(
         typography?.let { setTypography(it) }
         modifier?.let { setModifiers(it.build()) }
         block?.invoke(this)
-    }.build().apply {
-        addLayoutElement(this@Text, this)
-    }
+    }.build().apply { addLayoutElement(this@Text, this) }
