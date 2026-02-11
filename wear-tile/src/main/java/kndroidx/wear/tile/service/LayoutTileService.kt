@@ -55,7 +55,7 @@ abstract class LayoutTileService : TileService() {
         for ((id, res) in imageMap) {
             when (res) {
                 is ResImage -> addImage(id, res.resId)
-                is ByteImage -> addImage(id, res.byte)
+                is ByteImage -> addImage(id, res.byte, res.widthPx, res.heightPx, res.format)
             }
         }
     }
